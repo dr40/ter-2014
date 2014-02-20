@@ -1,5 +1,7 @@
 package fr.bigdatater2014;
 
+import fr.bigdatater2014.data.Evenement;
+import fr.bigdatater2014.data.ToulouseDataApi;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -17,16 +19,21 @@ public class ActEventDetail extends Activity {
 	    setContentView(R.layout.activity_act_event_detail);
 	
 	    Intent intent = getIntent();
+	    // On récupère la position
 	    int position = intent.getIntExtra("position", 0);
-	
-		String[] listAffichage = {"Event 1","Evenement 2"};
+	    // On récupère l'event correpondant
+		Evenement e = Globals.dataAPI.getEvenement(position);
 	    
-	    // Here we turn your string.xml in an array
-	    //String[] myKeys = getResources().getStringArray(R.array.sections);
-	
-	    TextView myTextView = (TextView) findViewById(R.id.labNameEvent);
-	    //myTextView.setText(myKeys[position]);
-	    myTextView.setText(listAffichage[position]);
+	    TextView title = (TextView) findViewById(R.id.labNameEvent);
+	    title.setText(e.getTitle());
+	    TextView desc = (TextView) findViewById(R.id.labDescEvent);
+	    desc.setText(e.getDescription());
+	    TextView start = (TextView) findViewById(R.id.labStartEvent);
+	    start.setText(e.getStartDate().toString());
+	    TextView end = (TextView) findViewById(R.id.labEndEvent);
+	    end.setText(e.getEndDate().toString());
+	    TextView phon = (TextView) findViewById(R.id.labPhoneEvent);
+	    phon.setText(e.getPhone().toString());
 	    
         Button bExit = (Button) findViewById(R.id.btnDetExit);
         bExit.setOnClickListener(ecouteurDetailExit);
