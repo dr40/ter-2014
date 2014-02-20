@@ -17,6 +17,8 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 	// Members
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
+	protected int _limitPage;
+	protected int _pageIndex;
 	protected long _startTime;
 	protected long _totalHTTPTime;
 	protected long _totalJSONTime;
@@ -26,14 +28,24 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 	protected int _eventByPage;
 	protected int _eventPageCount;
 	protected ToulouseDataApi _api;
-	
+	protected boolean _doStop;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Constructors
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	public APIRefreshTask(ToulouseDataApi api, int eventByPage) {
+	public APIRefreshTask(ToulouseDataApi api) {
+		init(api, 0, 0, 0);
+	}
+	
+	public APIRefreshTask(ToulouseDataApi api, int eventByPage, int pageIndex, int limitPage) {
+		init(api, eventByPage, pageIndex, limitPage);
+	}
+	
+	protected void init(ToulouseDataApi api, int eventByPage, int pageIndex, int limitPage) {
 		_api = api;
+		_limitPage = 0;
+		_pageIndex = 0;
 		_startTime = 0;
 		_totalHTTPTime = 0;
 		_totalJSONTime = 0;
@@ -42,7 +54,10 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 		_eventTotalCount = 0;
 		_eventByPage = eventByPage;
 		_eventPageCount = 0;
+		_pageIndex = pageIndex;
+		_limitPage = limitPage;
 	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Main
@@ -60,9 +75,14 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 			return ;
 		}
 		/* Get all pages */
-		for(int i = 1; i <= _eventPageCount; i++) {
+		int pageRead = 0;
+		for(int i = _pageIndex; i <= _eventPageCount; i++) {
 			if (!getEventPage(i)) {
 				return ;
+			}
+			pageRead++;
+			if ((_limitPage > 0) && (pageRead > _limitPage)) {
+				break;
 			}
 		}
 		/* Finalize */
@@ -119,7 +139,8 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 		StringURL url = new StringURL(Constants.API_URL);
 		url.setParameter("query", "export");
 		url.setParameter("curPage", String.valueOf(currentPage));
-		url.setParameter("nbMaxPage", String.valueOf(_eventByPage));
+		url.setParameter("nbMaxPage", String.valueOf(1));
+		url.setParameter("nbEvents", String.valueOf(_eventByPage));
 		/* Get */
 		HTTPGet http1 = new HTTPGet();
 		String result = http1.getSync(url);
@@ -130,7 +151,6 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 			if (result.length() > 0) {
 				localStartTime = System.currentTimeMillis();
 				JSON json = new JSON(result);
-				System.out.println("JSON event count: " + json.size());
 				localJSONGetTime = System.currentTimeMillis() - localStartTime;
 				_totalJSONTime += localJSONGetTime;
 				/* Analyse */
@@ -164,9 +184,20 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 		if (_api != null) {
 			for(int i = 0, max = json.size(); i < max; i++) {
 				Evenement e = new Evenement(json.get(i));
-				_api.addEvenement(e);
+				if (doAddEvenement(e)) {
+					_api.addEvenement(e);
+				}
 			}
 		}
+		return true;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Event
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected boolean doAddEvenement(Evenement e) {
+		/* By default: return true */
 		return true;
 	}
 	

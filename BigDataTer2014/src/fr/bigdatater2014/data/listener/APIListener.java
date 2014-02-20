@@ -6,5 +6,6 @@ public interface APIListener {
 	public void onRefreshProgress(APIRefreshDetails details);
 	public void onRefreshDone(APIRefreshDetails details);
 	public void onRefreshError();
+
 	
 }

@@ -15,6 +15,8 @@ public class ToulouseDataApi {
 	
 	protected LinkedList<Evenement> _events;
 	protected LinkedList<APIListener> _listeners;
+	protected int _curPage;
+	protected int _totalPage;
 	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +26,8 @@ public class ToulouseDataApi {
 	public ToulouseDataApi() {
 		_events = new LinkedList<Evenement>();
 		_listeners = new LinkedList<APIListener>();
+		_curPage = 0;
+		_totalPage = 0;
 	}
 	
 	
@@ -136,20 +140,37 @@ public class ToulouseDataApi {
 		return items;
 	}
 
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Smart refresh methods
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void smartRefresh(double latitude, double longitude, double directionAngle) {
+		
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Refresh methods
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void refresh() {
-		refresh(null);
-	}
 	
+	public void refresh() {
+		refresh(0, 0, Constants.API_EVENT_GET_DEFAULT_COUNT, null);
+	}
 	public void refresh(APIListener listener) {
+		refresh(0, 0, Constants.API_EVENT_GET_DEFAULT_COUNT, listener);
+	}
+
+	public void refresh(int pageIndex, int pageLimit, int itemByPage) {
+		refresh(pageIndex, pageLimit, itemByPage, null);
+	}
+	public void refresh(int pageIndex, int pageLimit, int itemByPage, APIListener listener) {
 		
 		class GetTask extends APIRefreshTask {
 			APIListener _listener;
-			public GetTask(ToulouseDataApi api, int eventByPage, APIListener listener) {
-				super(api, eventByPage);
+			public GetTask(ToulouseDataApi api, int eventByPage, int pageIndex, int pageLimit, APIListener listener) {
+				super(api, eventByPage, pageIndex, pageLimit);
 				_listener = listener;
 			}
 			@Override
@@ -190,7 +211,8 @@ public class ToulouseDataApi {
 				}
 			}
 		}
-		new Thread(new GetTask(this, Constants.API_EVENT_GET_DEFAULT_COUNT, listener)).start();
+		clearEvenement();
+		new Thread(new GetTask(this, itemByPage, pageIndex, pageLimit, listener)).start();
 	}
 	
 }
