@@ -161,7 +161,7 @@ public class ToulouseDataApi {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void smartRefresh(double latitude, double longitude, double directionAngle) {
-		
+		refresh(0, 1, 10);
 	}
 	
 	
