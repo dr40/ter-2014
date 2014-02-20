@@ -11,23 +11,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/labBegin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/labEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/labDetailTitle"
-            android:text="TextView" />
+        android:layout_height="wrap_content"
+        android:layout_weight="0.10" >
 
         <TextView
             android:id="@+id/labDetailTitle"
@@ -35,20 +20,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/labDetailDesc"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/labDetailDesc"
+            android:id="@+id/labBegin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/labEnd"
-            android:layout_alignBottom="@+id/labEnd"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/labEnd"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/labDetailTitle"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/labEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/labBegin"
             android:text="TextView" />
 
     </RelativeLayout>
-    
+
 </LinearLayout>

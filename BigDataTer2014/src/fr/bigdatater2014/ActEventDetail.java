@@ -2,16 +2,19 @@ package fr.bigdatater2014;
 
 import fr.bigdatater2014.data.Evenement;
 import fr.bigdatater2014.data.ToulouseDataApi;
+import fr.bigdatater2014.utils.string.StringUtils;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ActEventDetail extends Activity {
+public class ActEventDetail extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,17 +27,16 @@ public class ActEventDetail extends Activity {
 	    // On récupère l'event correpondant
 		Evenement e = Globals.dataAPI.getEvenement(position);
 	    
-	    TextView title = (TextView) findViewById(R.id.labNameEvent);
-	    title.setText(e.getTitle());
-	    TextView desc = (TextView) findViewById(R.id.labDescEvent);
-	    desc.setText(e.getDescription());
-	    TextView start = (TextView) findViewById(R.id.labStartEvent);
-	    start.setText(e.getStartDate().toString());
-	    TextView end = (TextView) findViewById(R.id.labEndEvent);
-	    end.setText(e.getEndDate().toString());
-	    TextView phon = (TextView) findViewById(R.id.labPhoneEvent);
-	    phon.setText(e.getPhone().toString());
-	    
+		String[] list = {e.getTitle(),
+				e.getDescription(),
+				StringUtils.stringFromDate(e.getStartDate()),
+				StringUtils.stringFromDate(e.getEndDate()),
+				e.getPhone()};
+		
+	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+	       
+	    setListAdapter(adapter);
+		
         Button bExit = (Button) findViewById(R.id.btnDetExit);
         bExit.setOnClickListener(ecouteurDetailExit);
 

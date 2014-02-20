@@ -8,6 +8,7 @@ import java.util.Map;
 import fr.bigdatater2014.data.Evenement;
 import fr.bigdatater2014.data.listener.APIListener;
 import fr.bigdatater2014.data.listener.APIRefreshDetails;
+import fr.bigdatater2014.utils.string.StringUtils;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -42,43 +43,26 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
 		final List<HashMap<String, String>> listItem = new ArrayList<HashMap<String,String>>();
 		
 		Globals.dataAPI.setSynchronizedMode(true);
-		Globals.dataAPI.refresh(numPage,1,10);
+		Globals.dataAPI.smartRefresh(Globals.currentLatitude, Globals.currentLongitude, Globals.currentOrientationAngle);
 		
 		for (int i = 0;i < Globals.dataAPI.getEvenementCount();i++) {
 			HashMap<String, String> item = new HashMap<String, String>();
 			Evenement e = Globals.dataAPI.getEvenement(i);
 			
 			item.put("itemTitle", e.getTitle());
-			item.put("itemDesc", e.getDescription());
-			item.put("itemBegin", e.getStartDate().toString());
-			item.put("itemEnd", e.getEndDate().toString());
+			item.put("itemBegin",StringUtils.stringFromDate(e.getStartDate()));
+			item.put("itemEnd", StringUtils.stringFromDate(e.getEndDate()));
 			listItem.add(item);
 		}
-		
-		/*HashMap<String, String> item = new HashMap<String, String>();
-		item.put("itemTitle", "Event 1010101101010110101100110");
-		item.put("itemDesc", "Super event de la morkitue bwaaaaaaaaaaa 8)");
-		item.put("itemBegin", "28/02/2014 15h00");
-		item.put("itemEnd", "28/02/2014 18h00");
-		listItem.add(item);
-		
-		HashMap<String, String> item2 = new HashMap<String, String>();
-		item2.put("itemTitle", "Event 2");
-		item2.put("itemDesc", "Mega event 8)");
-		item2.put("itemBegin", "29/02/2014 15h00");
-		item2.put("itemEnd", "29/02/2014 18h00");
-		listItem.add(item2);*/
-		
-	    //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listAffichage);
-	    
+
+
         SimpleAdapter mSchedule = new SimpleAdapter 
         		(this.getBaseContext(), listItem, R.layout.activity_act_item_list_event,
-                new String[] {"itemTitle", "itemDesc","itemBegin","itemEnd"}, new int[] {R.id.labDetailTitle, R.id.labDetailDesc, R.id.labBegin,R.id.labEnd });
+                new String[] {"itemTitle","itemBegin","itemEnd"}, new int[] {R.id.labDetailTitle, R.id.labBegin,R.id.labEnd });
 	    
 	    setListAdapter(mSchedule);
 
         ListView listview = (ListView) findViewById(android.R.id.list);
-        //this.setOnItemClickListener(this);
         listview.setOnItemClickListener(new OnItemClickListener() 
 	    {
 	        public void onItemClick(AdapterView<?> arg0,View arg1, int position, long arg3) 
