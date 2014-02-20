@@ -17,7 +17,8 @@ public class ToulouseDataApi {
 	protected LinkedList<APIListener> _listeners;
 	protected int _curPage;
 	protected int _totalPage;
-	
+	protected boolean _finishDone;
+	protected boolean _syncronized;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Constructors
@@ -28,6 +29,20 @@ public class ToulouseDataApi {
 		_listeners = new LinkedList<APIListener>();
 		_curPage = 0;
 		_totalPage = 0;
+		_finishDone = false;
+		_syncronized = false;
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Properties
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public boolean isSyncronizedMode() {
+		return _syncronized;
+	}
+	public void setSynchronizedMode(boolean syncMode) {
+		_syncronized = syncMode;
 	}
 	
 	
@@ -190,6 +205,7 @@ public class ToulouseDataApi {
 				for(APIListener l : _listeners) {
 					l.onRefreshDone(details);
 				}
+				_finishDone = true;
 			}
 			@Override
 			public void onRefreshError() {
@@ -199,6 +215,7 @@ public class ToulouseDataApi {
 				for(APIListener l : _listeners) {
 					l.onRefreshError();
 				}
+				_finishDone = true;
 			}
 			@Override
 			public void onRefreshCountRetrieved(int eventByPage, int pageCount,
@@ -212,7 +229,18 @@ public class ToulouseDataApi {
 			}
 		}
 		clearEvenement();
+		_finishDone = false;
 		new Thread(new GetTask(this, itemByPage, pageIndex, pageLimit, listener)).start();
+		if (_syncronized) {
+			while (!_finishDone) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 }
