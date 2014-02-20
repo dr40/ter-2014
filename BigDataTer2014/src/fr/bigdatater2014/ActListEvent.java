@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.bigdatater2014.data.Evenement;
 import fr.bigdatater2014.data.listener.APIListener;
 import fr.bigdatater2014.data.listener.APIRefreshDetails;
 
@@ -40,51 +41,21 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
 		
 		final List<HashMap<String, String>> listItem = new ArrayList<HashMap<String,String>>();
 		
-		Globals.dataAPI.refresh(numPage,1,10,new APIListener() {
-			
-			@Override
-			public void onRefreshProgress(APIRefreshDetails details) {
-				// TODO Auto-generated method stub
-				listItem.clear();
-				/*for (int i = 0;i < Globals.dataAPI.getEvenementCount();i++){
-					HashMap<String, String> item = new HashMap<String, String>();
-					//Evenement e
-					item.put("itemTitle", Globals.dataAPI.getEvenement(i).getTitle());
-				}*/
-				
-				HashMap<String, String> item = new HashMap<String, String>();
-				item.put("itemTitle", "Event 1");
-				item.put("itemDesc", "Super event 8)");
-				item.put("itemBegin", "28/02/2014 15h00");
-				item.put("itemEnd", "28/02/2014 18h00");
-				listItem.add(item);
-				
-				// Vider la liste
-				// Mettre les nouveaux élements
-			}
-			
-			@Override
-			public void onRefreshError() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onRefreshDone(APIRefreshDetails details) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onRefreshCountRetrieved(int eventByPage, int pageCount,
-					int totalEventCount) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		Globals.dataAPI.setSynchronizedMode(true);
+		Globals.dataAPI.refresh(numPage,1,10);
 		
+		for (int i = 0;i < Globals.dataAPI.getEvenementCount();i++) {
+			HashMap<String, String> item = new HashMap<String, String>();
+			Evenement e = Globals.dataAPI.getEvenement(i);
+			
+			item.put("itemTitle", e.getTitle());
+			item.put("itemDesc", e.getDescription());
+			item.put("itemBegin", e.getStartDate().toString());
+			item.put("itemEnd", e.getEndDate().toString());
+			listItem.add(item);
+		}
 		
-		HashMap<String, String> item = new HashMap<String, String>();
+		/*HashMap<String, String> item = new HashMap<String, String>();
 		item.put("itemTitle", "Event 1010101101010110101100110");
 		item.put("itemDesc", "Super event de la morkitue bwaaaaaaaaaaa 8)");
 		item.put("itemBegin", "28/02/2014 15h00");
@@ -96,7 +67,7 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
 		item2.put("itemDesc", "Mega event 8)");
 		item2.put("itemBegin", "29/02/2014 15h00");
 		item2.put("itemEnd", "29/02/2014 18h00");
-		listItem.add(item2);
+		listItem.add(item2);*/
 		
 	    //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listAffichage);
 	    
