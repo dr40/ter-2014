@@ -11,7 +11,7 @@ public abstract class SmartAPIRefreshTask extends APIRefreshTask {
 	// Constructors
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	public SmartAPIRefreshTask(ToulouseDataApi api) {
+	public SmartAPIRefreshTask(ToulouseDataApi api, double latitude, double longititude, double angle) {
 		super(api);
 	}
 	
