@@ -1,0 +1,47 @@
+package fr.bigdatater2014.data.listener;
+
+import fr.bigdatater2014.data.measurement.Measurement;
+
+public class APIRefreshDetails {
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Members
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	protected Measurement _measurement;
+	protected int _newEventCount;
+	protected int _currentPage;
+	protected int _totalPage;
+	
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Constructors
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public APIRefreshDetails(Measurement measurement, int newEventCount, int currentPage, int totalPage) {
+		_measurement = measurement;
+		_newEventCount = newEventCount;
+		_currentPage = currentPage;
+		_totalPage = totalPage;
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Getters
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public Measurement getMeasurement() {
+		return _measurement;
+	}
+	public int getNewEventCount() {
+		return _newEventCount;
+	}
+	public int getCurrentPage() {
+		return _currentPage;
+	}
+	public int getTotalPage() {
+		return _totalPage;
+	}
+	
+}
