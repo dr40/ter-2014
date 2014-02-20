@@ -59,13 +59,23 @@ public class Evenement {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public String getTitle() {
-		return _title;
+		String title = _title;
+		title=title.replaceAll("\u2019", "'");
+		title=title.replaceAll("&nbsp;", " ");
+		title=title.replaceAll("/", "");
+		title=title.replaceAll("\u2026", "?");
+		return title;
 	}
 	public String getDescriptionHTML() {
 		return _description;
 	}
 	public String getDescription() {
-		return StringUtils.removeHTMLMarkup(_description);
+		String desc = StringUtils.removeHTMLMarkup(_description);
+		desc=desc.replaceAll("\u2019", "'");
+		desc=desc.replaceAll("&nbsp;", " ");
+		desc=desc.replaceAll("/", "");
+		desc=desc.replaceAll("\u2019", "'");
+		return desc;
 	}
 	public Location getLocation() {
 		return _location;
