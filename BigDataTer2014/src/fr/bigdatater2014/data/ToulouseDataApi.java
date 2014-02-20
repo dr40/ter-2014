@@ -4,8 +4,10 @@ import java.util.LinkedList;
 
 import fr.bigdatater2014.Constants;
 import fr.bigdatater2014.data.core.APIRefreshTask;
+import fr.bigdatater2014.data.core.SmartAPIRefreshTask;
 import fr.bigdatater2014.data.listener.APIListener;
 import fr.bigdatater2014.data.listener.APIRefreshDetails;
+import fr.bigdatater2014.orientation.Orientation;
 
 public class ToulouseDataApi {
 
@@ -160,8 +162,41 @@ public class ToulouseDataApi {
 	// Smart refresh methods
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void smartRefresh(double latitude, double longitude, double directionAngle) {
-		refresh(0, 1, 10);
+	public void smartRefresh(double longitude, double latitude, Orientation.Type orientation) {
+
+		class GetTask extends SmartAPIRefreshTask {
+			public GetTask(ToulouseDataApi api, double longitude, double latitude, Orientation.Type orientation) {
+				super(api, longitude, latitude, orientation);
+			}
+			@Override
+			public void onRefreshProgress(APIRefreshDetails details) {
+			}
+			@Override
+			public void onRefreshDone(APIRefreshDetails details) {
+				_finishDone = true;
+			}
+			@Override
+			public void onRefreshError() {
+				_finishDone = true;
+			}
+			@Override
+			public void onRefreshCountRetrieved(int eventByPage, int pageCount,
+					int totalEventCount) {
+			}
+		}
+		clearEvenement();
+		_finishDone = false;
+		new Thread(new GetTask(this, longitude, latitude, orientation)).start();
+		if (_syncronized) {
+			while (!_finishDone) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	

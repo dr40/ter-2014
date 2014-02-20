@@ -28,14 +28,14 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 	protected int _eventByPage;
 	protected int _eventPageCount;
 	protected ToulouseDataApi _api;
-	protected boolean _doStop;
+	protected boolean stop;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Constructors
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	public APIRefreshTask(ToulouseDataApi api) {
-		init(api, 0, 0, 0);
+		init(api, 50, 0, 0);
 	}
 	
 	public APIRefreshTask(ToulouseDataApi api, int eventByPage, int pageIndex, int limitPage) {
@@ -56,6 +56,7 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 		_eventPageCount = 0;
 		_pageIndex = pageIndex;
 		_limitPage = limitPage;
+		stop = false;
 	}
 	
 	
@@ -70,6 +71,7 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 		_totalHTTPTime = 0;
 		_totalJSONTime = 0;
 		_totalAnalyseTime = 0;
+		stop = false;
 		/* Get count */
 		if (!getEventCount()) {
 			return ;
@@ -82,6 +84,9 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 			}
 			pageRead++;
 			if ((_limitPage > 0) && (pageRead > _limitPage)) {
+				break;
+			}
+			if (stop) {
 				break;
 			}
 		}
