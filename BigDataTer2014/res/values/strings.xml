@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="mapKey">AIzaSyBTDyxXkI1HLVO6IZU6C2NRrIKFUKj8vJk</string>
     <string name="title_activity_hello_google_map">ActMain</string>
-    
+    <string name="title_activity_act_google_map">ActGoogleMap</string>
+
 </resources>
