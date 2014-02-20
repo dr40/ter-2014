@@ -28,8 +28,7 @@ import android.widget.Toast;
 
 public class ActListEvent extends ListActivity implements OnItemClickListener{
 
-	private int min = 0;
-	private int max = 10;
+	private static int numPage = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +36,22 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_act_list_event);
 		
-		String[] listAffichage = {"Event 1","Evenement 2"};
+		//String[] listAffichage = {"Event 1","Evenement 2"};
 		
 		final List<HashMap<String, String>> listItem = new ArrayList<HashMap<String,String>>();
 		
-		Globals.dataAPI.refresh(new APIListener() {
+		Globals.dataAPI.refresh(numPage,1,10,new APIListener() {
 			
 			@Override
 			public void onRefreshProgress(APIRefreshDetails details) {
 				// TODO Auto-generated method stub
 				listItem.clear();
+				/*for (int i = 0;i < Globals.dataAPI.getEvenementCount();i++){
+					HashMap<String, String> item = new HashMap<String, String>();
+					//Evenement e
+					item.put("itemTitle", Globals.dataAPI.getEvenement(i).getTitle());
+				}*/
+				
 				HashMap<String, String> item = new HashMap<String, String>();
 				item.put("itemTitle", "Event 1");
 				item.put("itemDesc", "Super event 8)");
@@ -135,6 +140,7 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
         	Toast toast = new Toast(context);
     	    toast = Toast.makeText(context, "Chargement en cours ...", Toast.LENGTH_LONG);
             toast.show();
+            numPage++;
         }
     };
 	
