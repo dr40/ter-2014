@@ -11,4 +11,13 @@
         android:layout_centerVertical="true"
         android:text="Open map" />
 
+    <Button
+        android:id="@+id/btnEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnMap"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="Liste des évènements" />
+
 </RelativeLayout>

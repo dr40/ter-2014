@@ -18,7 +18,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!--
          The following two permissions are not required to use
-	     Google Maps Android API v2, but are recommended.
+	     Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -42,6 +42,18 @@
         <activity
             android:name="fr.bigdatater2014.ActGoogleMap"
             android:label="@string/title_activity_act_google_map" >
+        </activity>
+        <activity
+            android:name="fr.bigdatater2014.ActListEvent"
+            android:label="@string/title_activity_act_list_event" >
+        </activity>
+        <activity
+            android:name="fr.bigdatater2014.ActEventDetail"
+            android:label="@string/title_activity_act_event_detail" >
+        </activity>
+        <activity
+            android:name="fr.bigdatater2014.ActItemListEvent"
+            android:label="@string/title_activity_act_item_list_event" >
         </activity>
     </application>
 

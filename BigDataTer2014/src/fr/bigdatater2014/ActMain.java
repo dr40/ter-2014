@@ -17,8 +17,11 @@ public class ActMain extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_main);
         
-        Button bMusic = (Button) findViewById(R.id.btnMap);
-        bMusic.setOnClickListener(ecouteurMap);
+        Button bMap = (Button) findViewById(R.id.btnMap);
+        bMap.setOnClickListener(ecouteurMap);
+        
+        Button bEvent = (Button) findViewById(R.id.btnEvent);
+        bEvent.setOnClickListener(ecouteurEvent);
     }
 
     @Override
@@ -32,6 +35,14 @@ public class ActMain extends Activity {
         @Override
         public void onClick(View view) {
         	Intent i = new Intent(view.getContext(), ActGoogleMap.class);
+        	startActivity(i);
+        }
+    };
+    
+    private OnClickListener ecouteurEvent = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        	Intent i = new Intent(view.getContext(), ActListEvent.class);
         	startActivity(i);
         }
     };
