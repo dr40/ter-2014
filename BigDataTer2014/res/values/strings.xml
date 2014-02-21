@@ -10,5 +10,6 @@
     <string name="title_activity_act_list_event">ActListEvent</string>
     <string name="title_activity_act_event_detail">ActEventDetail</string>
     <string name="title_activity_act_item_list_event">ActItemListEvent</string>
+    <string name="title_activity_act_compass">ActCompass</string>
 
 </resources>

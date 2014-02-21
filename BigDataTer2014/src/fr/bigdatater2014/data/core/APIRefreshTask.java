@@ -27,6 +27,7 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 	protected int _eventTotalCount;
 	protected int _eventByPage;
 	protected int _eventPageCount;
+	protected int _pageReaded;
 	protected ToulouseDataApi _api;
 	protected boolean stop;
 	
@@ -45,6 +46,7 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 	protected void init(ToulouseDataApi api, int eventByPage, int pageIndex, int limitPage) {
 		_api = api;
 		_limitPage = 0;
+		_pageReaded = 0;
 		_pageIndex = 0;
 		_startTime = 0;
 		_totalHTTPTime = 0;
@@ -78,11 +80,13 @@ public abstract class APIRefreshTask implements APIListener, Runnable {
 		}
 		/* Get all pages */
 		int pageRead = 0;
+		_pageReaded = 0;
 		for(int i = _pageIndex; i <= _eventPageCount; i++) {
 			if (!getEventPage(i)) {
 				return ;
 			}
 			pageRead++;
+			_pageReaded++;
 			if ((_limitPage > 0) && (pageRead > _limitPage)) {
 				break;
 			}

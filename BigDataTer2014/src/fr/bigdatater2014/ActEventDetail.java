@@ -45,7 +45,10 @@ public class ActEventDetail extends ListActivity {
     private OnClickListener ecouteurDetailExit = new OnClickListener() {
         @Override 
         public void onClick(View arg0) {
-            System.exit(RESULT_OK);
+            //System.exit(RESULT_OK);
+        	Intent intent = new Intent();
+        	setResult(RESULT_OK, intent);
+        	finish();
         }
     };
 	

@@ -43,7 +43,7 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
 		final List<HashMap<String, String>> listItem = new ArrayList<HashMap<String,String>>();
 		
 		Globals.dataAPI.setSynchronizedMode(true);
-		Globals.dataAPI.smartRefresh(Globals.currentLatitude, Globals.currentLongitude, Globals.currentOrientationAngle);
+		Globals.dataAPI.smartRefresh(Globals.currentLatitude, Globals.currentLongitude, Globals.currentOrientation);
 		
 		for (int i = 0;i < Globals.dataAPI.getEvenementCount();i++) {
 			HashMap<String, String> item = new HashMap<String, String>();
@@ -84,7 +84,10 @@ public class ActListEvent extends ListActivity implements OnItemClickListener{
     private OnClickListener ecouteurDetailExit = new OnClickListener() {
         @Override 
         public void onClick(View arg0) {
-            System.exit(RESULT_OK);
+            //System.exit(RESULT_OK);
+        	Intent intent = new Intent();
+        	setResult(RESULT_OK, intent);
+        	finish();
         }
     };
     

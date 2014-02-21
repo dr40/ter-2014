@@ -70,7 +70,7 @@ public abstract class SmartAPIRefreshTask extends APIRefreshTask {
 			
 			//bAdd = (o == _wantedOrientation);
 			/* Add if angle correct */
-			if (bAdd) {
+			if ((bAdd) || (_pageReaded >=8)){
 				_eventLoadedCount++;
 				if (_eventLoadedCount > 5) {
 					stop = true;
